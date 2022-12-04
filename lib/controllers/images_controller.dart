@@ -1,55 +1,49 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:documentsuploader/api/firebase_api.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:get/get.dart';
 import 'package:get/state_manager.dart';
 import 'package:path/path.dart' as Path;
-import 'package:firebase_storage/firebase_storage.dart';
 
-import '../model/firebase_file.dart';
-
-class DocumentsController extends GetxController {
+class ImagesController extends GetxController {
   @override
   void onInit() {
     // TODO: implement onInit
-    getlinks();
+    getimages();
     super.onInit();
   }
 
-  // file
-  File? file;
-  String title = "";
   RxInt upprogress = 0.obs;
-  late Future<List<FirebaseFile>> futureFiles;
-  final FirebaseAuth auth = FirebaseAuth.instance;
-  List links = [];
-  Future adddata(String url, String name) async {
+  File? file;
+  List images = [];
+  Future addImage(String url, String name) async {
     String uid = FirebaseAuth.instance.currentUser!.uid;
-    links.add({name: url});
+    images.add({name: url});
     await FirebaseFirestore.instance
-        .collection("users")
+        .collection("images")
         .doc(uid)
-        .set({"links": links}, SetOptions(merge: true));
+        .set({"images": images}, SetOptions(merge: true));
+
     print("done");
-    getlinks();
+    getimages();
     update();
   }
 
   bool loading = true;
-  Future getlinks() async {
+  Future getimages() async {
     EasyLoading.instance.userInteractions = false;
     EasyLoading.show();
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
     print(uid);
     DocumentSnapshot<Map<String, dynamic>> data =
-        await FirebaseFirestore.instance.collection("users").doc(uid).get();
-    links = data['links'];
+        await FirebaseFirestore.instance.collection("images").doc(uid).get();
+    images = data['images'];
     loading = false;
     EasyLoading.dismiss();
     update();
@@ -60,14 +54,18 @@ class DocumentsController extends GetxController {
       final result = await FilePicker.platform.pickFiles(
         allowMultiple: false,
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'doc'],
+        allowedExtensions: [
+          'jpeg',
+          'jpg',
+          'png',
+        ],
       );
       if (result == null) return;
       final path = result.files.single.path;
       file = File(path.toString());
       if (file == null) return;
       final fileName = Path.basename(file!.path);
-      title = fileName;
+      // title = fileName;
       final destination = 'files/$fileName';
       final ref = FirebaseStorage.instance.ref(destination);
       final uploadtask = ref.putFile(file!);
@@ -100,22 +98,16 @@ class DocumentsController extends GetxController {
           case TaskState.success:
             const snackBar = SnackBar(content: Text("Succesfully Uploaded"));
             String url = await ref.getDownloadURL();
-            await adddata(url, fileName);
+            await addImage(url, fileName);
 
-            futureFiles = FirebaseApi.listAll('files/');
+            // futureFiles = FirebaseApi.listAll('files/');
             ScaffoldMessenger.of(context).showSnackBar(snackBar);
             break;
         }
       });
       final snapshot = await uploadtask.whenComplete(() => {});
       final urlDownload = await snapshot.ref.getDownloadURL();
-      // String? uid = FirebaseAuth.instance.currentUser?.uid.toString();
-
-      //  await FirebaseFirestore.instance.collection("pdfs").doc().set({
-      //       "uid": uid,
-
-      // });
-
+      
       print('Download-Link:$urlDownload');
       upprogress.value = 0;
       update();

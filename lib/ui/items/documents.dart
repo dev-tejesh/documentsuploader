@@ -7,8 +7,6 @@ import 'package:documentsuploader/utils/appbar.dart';
 import 'package:documentsuploader/utils/buildpdffile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../utils/buildfile.dart';
 import '../../utils/buildheader.dart';
 
 class Documents extends StatefulWidget {
@@ -29,64 +27,34 @@ class _DocumentsState extends State<Documents> {
           _documentscontroller,
         ) {
           return Scaffold(
-            appBar: appbar('Documents'),
-            drawer: sideDrawer(),
-            floatingActionButton: FloatingActionButton(
-              backgroundColor: const Color(0xff00796B),
-              child: const Icon(Icons.add),
-              onPressed: () {
-                _documentscontroller.selectFile(context);
-              },
-            ),
-            body: FutureBuilder<List<FirebaseFile>>(
-              future: FirebaseApi.listAll('files/'),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return const Center(
-                        child: CircularProgressIndicator(
-                      color: Color(0xff00796B),
-                    ));
-                  default:
-                    if (snapshot.hasError) {
-                      return const Center(child: Text('Some error occurred!'));
-                    } else {
-                      final files = snapshot.data!;
-
-                      return Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          buildHeader(files.length, _documentscontroller),
-                          const SizedBox(height: 12),
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: files.length,
-                              itemBuilder: (context, index) {
-                                final file = files[index];
-                                  
-                                return buildpdfFile(context, file);
-
-                              },
-                            ),
-                          ),
-                        ],
-                      );
-                    }
-                }
-              },
-            ),
-          );
+              appBar: appbar('Documents'),
+              drawer: sideDrawer(),
+              floatingActionButton: FloatingActionButton(
+                backgroundColor: const Color(0xff00796B),
+                child: const Icon(Icons.add),
+                onPressed: () {
+                  _documentscontroller.selectFile(context);
+                },
+              ),
+              body: Column(
+                children: [
+                  buildHeader(
+                      _documentscontroller.links.length, _documentscontroller),
+                  Expanded(
+                    child: ListView.builder(
+                        itemCount: _documentscontroller.links.length,
+                        itemBuilder: (context, index) {
+                          return buildpdfFile(
+                              _documentscontroller.links[index].keys.first
+                                  .toString(),
+                              _documentscontroller.links[index][
+                                      _documentscontroller
+                                          .links[index].keys.first]
+                                  .toString());
+                        }),
+                  )
+                ],
+              ));
         });
   }
-
-  // void searchFile(String query, List files) {
-  //   final suggestions = files.where((file) {
-  //     final fileTitle = file.name.toLowercase();
-  //     final input = query.toLowerCase();
-  //     return fileTitle.contains(input);
-  //   }).toList();
-  //   setState(() {
-  //     files = suggestions;
-  //   });
-  // }
 }

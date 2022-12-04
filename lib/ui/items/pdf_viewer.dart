@@ -3,12 +3,13 @@ import 'package:documentsuploader/utils/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
+import 'package:power_file_view/power_file_view.dart';
 
 class PdfViewer extends StatefulWidget {
-  final FirebaseFile file;
+  final String link;
   const PdfViewer({
     Key? key,
-    required this.file,
+    required this.link,
   }) : super(key: key);
 
   @override
@@ -19,7 +20,7 @@ class _PdfViewerState extends State<PdfViewer> {
   late FileInfo docFile;
   bool loading = true;
   getFile() async {
-    docFile = await DefaultCacheManager().downloadFile(widget.file.url);
+    docFile = await DefaultCacheManager().downloadFile(widget.link);
     loading = false;
     setState(() {});
   }
@@ -35,7 +36,8 @@ class _PdfViewerState extends State<PdfViewer> {
     return Scaffold(
       appBar: appbar('Document'),
       body: !loading
-          ? PDFView(
+          ? 
+          PDFView(
               filePath: docFile.file.path.toString(),
               enableSwipe: true,
               swipeHorizontal: false,

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:documentsuploader/ui/homepage/Home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
@@ -9,15 +10,15 @@ class AuthController extends GetxController {
 
   void login(context) async {
     showDialog(
-      context: context,
-      barrierDismissible: false,
-    builder: (context) => const Center(child: CircularProgressIndicator(),)
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
     } on FirebaseAuthException catch (e) {
-     
       Get.snackbar("Error", e.message.toString(),
           messageText: Text(
             e.message.toString(),
@@ -31,13 +32,19 @@ class AuthController extends GetxController {
 
   void register(context) async {
     showDialog(
-      context: context,
-      barrierDismissible: false,
-    builder: (context) => const Center(child: CircularProgressIndicator(),)
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ));
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
+      String uid = FirebaseAuth.instance.currentUser!.uid;
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .set({"links": []});
       Get.to(Home());
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Error", e.message.toString(),
