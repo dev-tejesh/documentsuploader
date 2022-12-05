@@ -1,6 +1,7 @@
 import 'package:documentsuploader/ui/items/documents.dart';
 import 'package:documentsuploader/ui/items/images.dart';
 import 'package:documentsuploader/ui/items/music.dart';
+import 'package:documentsuploader/ui/items/videos.dart';
 import 'package:documentsuploader/utils/spacing.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -59,14 +60,19 @@ class sideDrawer extends StatelessWidget {
                 Get.to(Documents());
               }),
           ListTile(
-            leading: const Icon(Icons.file_present),
-            title: const Text('Music'),
-            onTap: () => {Navigator.of(context).pop(),Get.to(Music())},
-          ),
-          ListTile(
             leading: const Icon(Icons.image),
             title: const Text('Pictures'),
             onTap: () => {Navigator.of(context).pop(), Get.to(Images())},
+          ),
+          ListTile(
+            leading: const Icon(Icons.music_note_outlined),
+            title: const Text('Music'),
+            onTap: () => {Navigator.of(context).pop(), Get.to(Music())},
+          ),
+          ListTile(
+            leading: const Icon(Icons.videocam),
+            title: const Text('Videos'),
+            onTap: () => {Navigator.of(context).pop(), Get.to(Videos())},
           ),
           ListTile(
             leading: const Icon(Icons.exit_to_app),

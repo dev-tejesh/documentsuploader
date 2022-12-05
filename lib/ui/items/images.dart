@@ -47,7 +47,6 @@ class _ImagesState extends State<Images> {
                                   .toString(),
                               imagescontroller.images[index]
                                   [imagescontroller.images[index].keys.first]);
-                                 
                         }),
                   )
                 ],

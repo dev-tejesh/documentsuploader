@@ -43,7 +43,8 @@ class LoginPage extends StatelessWidget {
                             blurRadius: 0,
                             offset: Offset(0, 5),
                           )
-                        ]),
+                        ]
+                        ),
                     child: Column(
                       children: [
                         Form(

@@ -45,6 +45,18 @@ class AuthController extends GetxController {
           .collection("users")
           .doc(uid)
           .set({"links": []});
+      await FirebaseFirestore.instance
+          .collection("images")
+          .doc(uid)
+          .set({"images": []});
+      await FirebaseFirestore.instance
+          .collection("music")
+          .doc(uid)
+          .set({"music": []});
+          await FirebaseFirestore.instance
+          .collection("videos")
+          .doc(uid)
+          .set({"videos": []});
       Get.to(Home());
     } on FirebaseAuthException catch (e) {
       Get.snackbar("Error", e.message.toString(),

@@ -1,4 +1,4 @@
-import 'package:documentsuploader/controllers/music_controller.dart';
+import 'package:documentsuploader/controllers/video_controller.dart';
 import 'package:documentsuploader/ui/homepage/sidedrawer.dart';
 import 'package:documentsuploader/utils/appbar.dart';
 import 'package:documentsuploader/utils/buildheader.dart';
@@ -8,46 +8,44 @@ import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
-class Music extends StatefulWidget {
-  const Music({Key? key}) : super(key: key);
+class Videos extends StatefulWidget {
+  const Videos({Key? key}) : super(key: key);
 
   @override
-  State<Music> createState() => _MusicState();
+  State<Videos> createState() => _VideosState();
 }
 
-class _MusicState extends State<Music> {
+class _VideosState extends State<Videos> {
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<MusicController>(
-        init: MusicController(),
+    return GetBuilder<VideoController>(
+        init: VideoController(),
         builder: (
-          musiccontroller,
+          videoscontroller,
         ) {
           return Scaffold(
-              appBar: appbar('Music'),
+              appBar: appbar('Videos'),
               drawer: sideDrawer(),
               floatingActionButton: FloatingActionButton(
                 backgroundColor: const Color(0xff00796B),
                 child: const Icon(Icons.add),
                 onPressed: () {
-                  musiccontroller.selectFile(context);
+                  videoscontroller.selectFile(context);
                 },
               ),
               body: Column(
                 children: [
-                  buildMusicHeader(
-                      musiccontroller.music.length, musiccontroller),
-                  // buildMusicHeader(
-                  //     musiccontroller.music.length, musiccontroller),
+                  buildVideoHeader(
+                      videoscontroller.videos.length, videoscontroller),
                   Expanded(
                     child: ListView.builder(
-                        itemCount: musiccontroller.music.length,
+                        itemCount: videoscontroller.videos.length,
                         itemBuilder: (context, index) {
-                          return buildMusicFile(
-                              musiccontroller.music[index].keys.first
+                          return buildvideoFile(
+                              videoscontroller.videos[index].keys.first
                                   .toString(),
-                              musiccontroller.music[index]
-                                      [musiccontroller.music[index].keys.first]
+                              videoscontroller.videos[index][
+                                      videoscontroller.videos[index].keys.first]
                                   .toString());
                         }),
                   )

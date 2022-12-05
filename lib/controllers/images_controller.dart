@@ -36,10 +36,11 @@ class ImagesController extends GetxController {
 
   bool loading = true;
   Future getimages() async {
-    EasyLoading.instance.userInteractions = false;
+    // EasyLoading.instance.userInteractions = false;
     EasyLoading.show();
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
+    print('images controller uid');
     print(uid);
     DocumentSnapshot<Map<String, dynamic>> data =
         await FirebaseFirestore.instance.collection("images").doc(uid).get();
@@ -107,7 +108,7 @@ class ImagesController extends GetxController {
       });
       final snapshot = await uploadtask.whenComplete(() => {});
       final urlDownload = await snapshot.ref.getDownloadURL();
-      
+
       print('Download-Link:$urlDownload');
       upprogress.value = 0;
       update();

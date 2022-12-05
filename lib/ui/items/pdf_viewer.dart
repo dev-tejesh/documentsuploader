@@ -3,7 +3,7 @@ import 'package:documentsuploader/utils/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
-import 'package:power_file_view/power_file_view.dart';
+
 
 class PdfViewer extends StatefulWidget {
   final String link;
