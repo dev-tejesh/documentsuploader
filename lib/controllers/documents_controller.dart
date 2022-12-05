@@ -41,9 +41,13 @@ class DocumentsController extends GetxController {
   }
 
   bool loading = true;
+  bool loaded = false;
   Future getlinks() async {
     EasyLoading.instance.userInteractions = false;
-    EasyLoading.show();
+    EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.ring;
+    EasyLoading.instance.loadingStyle = EasyLoadingStyle.light;
+
+    EasyLoading.show(status: 'please wait');
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
     print(uid);
@@ -51,6 +55,7 @@ class DocumentsController extends GetxController {
         await FirebaseFirestore.instance.collection("users").doc(uid).get();
     links = data['links'];
     loading = false;
+    loaded = true;
     EasyLoading.dismiss();
     update();
   }

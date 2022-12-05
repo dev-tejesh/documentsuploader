@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:documentsuploader/utils/appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -19,8 +20,18 @@ class _ImageViewerState extends State<ImageViewer> {
     return SafeArea(
       child: Scaffold(
         appBar: appbar('Image'),
-        body:
-            Center(child: InteractiveViewer(child: Image.network(widget.link))),
+        body: Center(
+          child: InteractiveViewer(
+            child: CachedNetworkImage(
+              imageUrl: widget.link,
+              placeholder: (context, url) => new CircularProgressIndicator(
+                color: Color(0xff00796B),
+              ),
+              errorWidget: (context, url, error) => new Icon(Icons.error),
+            ),
+          ),
+        ),
+        // Center(child: InteractiveViewer(child: Image.network(widget.link))),
       ),
     );
   }

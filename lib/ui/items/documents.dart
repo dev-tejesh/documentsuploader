@@ -40,19 +40,41 @@ class _DocumentsState extends State<Documents> {
                 children: [
                   buildHeader(
                       _documentscontroller.links.length, _documentscontroller),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: _documentscontroller.links.length,
-                        itemBuilder: (context, index) {
-                          return buildpdfFile(
-                              _documentscontroller.links[index].keys.first
-                                  .toString(),
-                              _documentscontroller.links[index][
-                                      _documentscontroller
-                                          .links[index].keys.first]
-                                  .toString());
-                        }),
-                  )
+                  _documentscontroller.loaded
+                      ? Expanded(
+                          child: _documentscontroller.links.isNotEmpty
+                              ? ListView.builder(
+                                  itemCount: _documentscontroller.links.length,
+                                  itemBuilder: (context, index) {
+                                    return buildpdfFile(
+                                        _documentscontroller
+                                            .links[index].keys.first
+                                            .toString(),
+                                        _documentscontroller.links[index][
+                                                _documentscontroller
+                                                    .links[index].keys.first]
+                                            .toString());
+                                  })
+                              : 
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Center(
+                                        child: Text(
+                                          'Please click floating action button below to add images',
+                                          style: TextStyle(
+                                              color: Colors.grey.shade700,
+                                              fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                )
+                                )
+                      : Container()
                 ],
               ));
         });

@@ -7,9 +7,7 @@ import 'package:share_plus/share_plus.dart';
 import 'package:video_player/video_player.dart';
 
 class VideoViewer extends StatefulWidget {
-//   final VideoPlayerController videoPlayerController;
-// final bool looping;
-// final bool autoplay;
+
   final String link;
 
   const VideoViewer({Key? key, required this.link}) : super(key: key);
@@ -26,6 +24,7 @@ class _VideoViewerState extends State<VideoViewer> {
     // TODO: implement initState
     _controller = VideoPlayerController.network(widget.link)
       ..initialize().then((_) {
+        
         setState(() {});
       });
     chewieController = ChewieController(
@@ -37,8 +36,7 @@ class _VideoViewerState extends State<VideoViewer> {
           OptionItem(
             onTap: () {
               final weburl = widget.link;
-              // print('weburl' + weburl);
-              // getshortenurlapi(weburl);
+              
               Share.share('check out this pdf $weburl',
                   subject: 'Look what I share!');
             },

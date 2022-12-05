@@ -41,9 +41,13 @@ class VideoController extends GetxController {
   }
 
   bool loading = true;
+  bool loaded = false;
   Future getvideos() async {
     EasyLoading.instance.userInteractions = false;
-    EasyLoading.show();
+    EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.ring;
+    EasyLoading.instance.loadingStyle = EasyLoadingStyle.light;
+
+    EasyLoading.show(status: 'please wait');
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
     print(uid);
@@ -51,6 +55,7 @@ class VideoController extends GetxController {
         await FirebaseFirestore.instance.collection("videos").doc(uid).get();
     videos = data['videos'];
     loading = false;
+    loaded = true;
     EasyLoading.dismiss();
     update();
   }

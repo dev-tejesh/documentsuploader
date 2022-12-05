@@ -37,20 +37,38 @@ class _MusicState extends State<Music> {
                 children: [
                   buildMusicHeader(
                       musiccontroller.music.length, musiccontroller),
-                  // buildMusicHeader(
-                  //     musiccontroller.music.length, musiccontroller),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: musiccontroller.music.length,
-                        itemBuilder: (context, index) {
-                          return buildMusicFile(
-                              musiccontroller.music[index].keys.first
-                                  .toString(),
-                              musiccontroller.music[index]
-                                      [musiccontroller.music[index].keys.first]
-                                  .toString());
-                        }),
-                  )
+                  musiccontroller.loaded
+                      ? Expanded(
+                          child: musiccontroller.music.isNotEmpty
+                              ? ListView.builder(
+                                  itemCount: musiccontroller.music.length,
+                                  itemBuilder: (context, index) {
+                                    return buildMusicFile(
+                                        musiccontroller.music[index].keys.first
+                                            .toString(),
+                                        musiccontroller.music[index][
+                                                musiccontroller
+                                                    .music[index].keys.first]
+                                            .toString());
+                                  })
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Center(
+                                        child: Text(
+                                          'Please click floating action button below to add music',
+                                          style: TextStyle(
+                                              color: Colors.grey.shade700,
+                                              fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ))
+                      : Container()
                 ],
               ));
         });

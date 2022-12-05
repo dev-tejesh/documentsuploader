@@ -35,9 +35,13 @@ class ImagesController extends GetxController {
   }
 
   bool loading = true;
+  bool loaded = false;
   Future getimages() async {
-    // EasyLoading.instance.userInteractions = false;
-    EasyLoading.show();
+    EasyLoading.instance.userInteractions = false;
+    EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.ring;
+    EasyLoading.instance.loadingStyle = EasyLoadingStyle.light;
+
+    EasyLoading.show(status: 'please wait');
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
     print('images controller uid');
@@ -46,6 +50,7 @@ class ImagesController extends GetxController {
         await FirebaseFirestore.instance.collection("images").doc(uid).get();
     images = data['images'];
     loading = false;
+    loaded = true;
     EasyLoading.dismiss();
     update();
   }

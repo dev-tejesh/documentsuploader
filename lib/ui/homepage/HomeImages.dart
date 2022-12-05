@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:documentsuploader/utils/spacing.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomeImages extends StatefulWidget {
@@ -44,7 +46,23 @@ class _HomeImagesState extends State<HomeImages> {
                       )
                     ]),
                     // color: Colors.red,
-                    child: Image.network(
+                    child:
+                        // Center(
+                        //   child: CachedNetworkImage(
+                        //     height: 150,
+                        //     width: 140,
+                        //     imageUrl: widget.image,
+                        //     placeholder: (context, url) => SizedBox(
+                        //       height: 10,
+                        //       width: 10,
+                        //       child: CircularProgressIndicator(
+                        //         color: Color(0xff00796B),
+                        //       ),
+                        //     ),
+                        //     errorWidget: (context, url, error) => Icon(Icons.error),
+                        //   ),
+                        // ),
+                        Image.network(
                       widget.image,
                       height: 150,
                       width: 140,

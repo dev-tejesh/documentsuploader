@@ -1,3 +1,4 @@
+import 'package:documentsuploader/ui/homepage/Home.dart';
 import 'package:documentsuploader/ui/items/documents.dart';
 import 'package:documentsuploader/ui/items/images.dart';
 import 'package:documentsuploader/ui/items/music.dart';
@@ -53,6 +54,12 @@ class sideDrawer extends StatelessWidget {
               color: Color(0xff009688),
             ),
           ),
+          ListTile(
+              leading: const Icon(Icons.home),
+              title: const Text('Home'),
+              onTap: () {
+                Get.to(Home());
+              }),
           ListTile(
               leading: const Icon(Icons.drive_folder_upload_outlined),
               title: const Text('Documents'),

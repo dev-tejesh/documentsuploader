@@ -19,7 +19,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
-        title: Text("Documents Uploader"),
+        title: Text("Welcome to Uploader"),
         backgroundColor: const Color(0xff00796B),
       ),
       drawer: sideDrawer(),

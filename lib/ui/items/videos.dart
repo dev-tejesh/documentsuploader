@@ -37,18 +37,39 @@ class _VideosState extends State<Videos> {
                 children: [
                   buildVideoHeader(
                       videoscontroller.videos.length, videoscontroller),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: videoscontroller.videos.length,
-                        itemBuilder: (context, index) {
-                          return buildvideoFile(
-                              videoscontroller.videos[index].keys.first
-                                  .toString(),
-                              videoscontroller.videos[index][
-                                      videoscontroller.videos[index].keys.first]
-                                  .toString());
-                        }),
-                  )
+                  videoscontroller.loaded
+                      ? Expanded(
+                          child: videoscontroller.videos.isNotEmpty
+                              ? ListView.builder(
+                                  itemCount: videoscontroller.videos.length,
+                                  itemBuilder: (context, index) {
+                                    return buildvideoFile(
+                                        videoscontroller
+                                            .videos[index].keys.first
+                                            .toString(),
+                                        videoscontroller.videos[index][
+                                                videoscontroller
+                                                    .videos[index].keys.first]
+                                            .toString());
+                                  })
+                              : Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Center(
+                                        child: Text(
+                                          'Please click floating action button below to add videos',
+                                          style: TextStyle(
+                                              color: Colors.grey.shade700,
+                                              fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ))
+                      : Container()
                 ],
               ));
         });

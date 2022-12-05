@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:documentsuploader/ui/homepage/sidedrawer.dart';
 import 'package:documentsuploader/utils/appbar.dart';
 import 'package:documentsuploader/utils/buildheader.dart';
@@ -38,17 +40,39 @@ class _ImagesState extends State<Images> {
                 children: [
                   buildImageHeader(
                       imagescontroller.images.length, imagescontroller),
-                  Expanded(
-                    child: ListView.builder(
-                        itemCount: imagescontroller.images.length,
-                        itemBuilder: (context, index) {
-                          return buildImageFile(
-                              imagescontroller.images[index].keys.first
-                                  .toString(),
-                              imagescontroller.images[index]
-                                  [imagescontroller.images[index].keys.first]);
-                        }),
-                  )
+                  imagescontroller.loaded
+                      ? Expanded(
+                          child: imagescontroller.images.length != 0
+                              ? ListView.builder(
+                                  itemCount: imagescontroller.images.length,
+                                  itemBuilder: (context, index) {
+                                    return buildImageFile(
+                                        imagescontroller
+                                            .images[index].keys.first
+                                            .toString(),
+                                        imagescontroller.images[index][
+                                            imagescontroller
+                                                .images[index].keys.first]);
+                                  })
+                              : 
+                              Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(15),
+                                      child: Center(
+                                        child: Text(
+                                          'Please click floating action button below to add images',
+                                          style: TextStyle(
+                                              color: Colors.grey.shade700,
+                                              fontSize: 18),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ))
+                      : Container()
                 ],
               ));
         });

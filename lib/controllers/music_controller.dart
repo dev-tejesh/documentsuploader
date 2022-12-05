@@ -33,9 +33,13 @@ class MusicController extends GetxController {
   }
 
   bool loading = true;
+  bool loaded = false;
   Future getmusic() async {
-    // EasyLoading.instance.userInteractions = false;
-    EasyLoading.show();
+   EasyLoading.instance.userInteractions = false;
+    EasyLoading.instance.indicatorType = EasyLoadingIndicatorType.ring;
+    EasyLoading.instance.loadingStyle = EasyLoadingStyle.light;
+
+    EasyLoading.show(status: 'please wait');
 
     String uid = FirebaseAuth.instance.currentUser!.uid;
     print(uid);
@@ -43,6 +47,7 @@ class MusicController extends GetxController {
         await FirebaseFirestore.instance.collection("music").doc(uid).get();
     music = data['music'];
     loading = false;
+    loaded = true;
     EasyLoading.dismiss();
     update();
   }

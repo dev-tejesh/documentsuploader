@@ -1,3 +1,4 @@
+import 'package:documentsuploader/ui/authentication/forgotpassword.dart';
 import 'package:documentsuploader/ui/authentication/registerpage.dart';
 import 'package:documentsuploader/controllers/auth_controller.dart';
 import 'package:documentsuploader/utils/buttons.dart';
@@ -43,8 +44,7 @@ class LoginPage extends StatelessWidget {
                             blurRadius: 0,
                             offset: Offset(0, 5),
                           )
-                        ]
-                        ),
+                        ]),
                     child: Column(
                       children: [
                         Form(
@@ -96,17 +96,29 @@ class LoginPage extends StatelessWidget {
                             ],
                           ),
                         ),
+                        sizedBoxHeight10,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Get.to(ForgotPassword());
+                              },
+                              child: Text('Forgot Password?',
+                                  style: TextStyle(
+                                    color: Colors.orange,
+                                  )),
+                            ),
+                          ],
+                        ),
                         sizedBoxHeight20,
                         primaryActionButton(
                             text: 'Login',
                             onTap: (() {
                               if (loginKey.currentState!.validate()) {
-                                
                                 _authController.login(context);
-                               
                               }
-                            }
-                            )),
+                            })),
                         sizedBoxHeight20,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
